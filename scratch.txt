@@ -1,0 +1,36 @@
+https://blog.logrocket.com/express-middleware-a-complete-guide/
+
+** initialize project **
+npm init -y
+
+npm i --save-dev typescript
+npm i --save-dev ts-node
+npm i --save-dev @types/node
+npm i --save-dev @types/express
+npm i --save-dev nodemon
+
+npm i express
+
+"build": "npx tsc"
+"start": "nodemon src/index.ts"
+
+// to add default tsconfig
+npx tsc --init
+
+tsconfig.json:
+"target": "es5",
+"lib": ["ES6"],
+"outDir": "./build",
+"strict": true,
+"noImplicitAny": true
+
+// create index.ts in src dir
+
+// run script
+npm run build
+
+// run build
+node build/.
+
+// or - start server with start script
+npm run start
