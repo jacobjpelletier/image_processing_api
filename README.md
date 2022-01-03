@@ -14,7 +14,7 @@ sure to remove any debugging code from your final submission.
 _____________________________
 
 ##**Initialization**
-### Dependencies:
+### I. Dependencies:
 ### A. node
 1. `npm init -y` to start new node project
 ### B. Typescript
@@ -59,10 +59,10 @@ _____________________________
 4. add the following script `"jasmine": "jasmine"`
 5. **BEST PRACTICE:**
    1. When creating files for tests, a best practice is to name the .ts file the same as the .js file to be tested with 
-   2. Spec appended to the end. The more tests needed to be run, the more test files will need to be created. Be sure to 
-   3. follow this best practice to keep track of the test file that contains the tests for each .js file.
+   Spec appended to the end. The more tests needed to be run, the more test files will need to be created. Be sure to 
+   follow this best practice to keep track of the test file that contains the tests for each .js file.
 
-## File Structure
+## II. File Structure
 ```
 ├── node_modules
 ├── dev
