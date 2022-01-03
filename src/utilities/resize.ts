@@ -1,0 +1,23 @@
+import express from 'express';
+
+const fs = require('fs')
+const sharp = require('sharp')
+
+function resize(path: string, format: string, width: number, height: number) {
+    const readStream = fs.createReadStream(path)
+    let transform = sharp()
+
+    if (format) {
+        transform = transform.toFormat(format)
+    }
+
+    if (width || height) {
+        transform = transform.resize(path, format, width, height)
+    }
+
+    return readStream.pipe(transform)
+}
+
+export {
+    resize
+}

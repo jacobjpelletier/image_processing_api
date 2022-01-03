@@ -39,6 +39,7 @@ _____________________________
 2. `npm i --save-dev @types/express`type definitions
 ### D. nodemon
 1. `npm i --save-dev nodemon` to restart server after changes
+2. add `"start": "nodemon src/index.ts"` script to run nodemon
 ### E. morgan (logger)
 1. `npm install morgan` log server output
 2.  include `app.use(morgan("common"))` to add logger to js file
@@ -51,17 +52,59 @@ _____________________________
 1. `npm i --save-dev eslint` add to dev dependencies
 2. `npm i --save-dev eslint-config-prettier` 
 3. `npm i --save-dev eslint-plugin-prettier`
-4. run `npm run lint` to run linting
+4. `npm i eslint-config-airbnb-base eslint-plugin-import` save airbnb style guide
+5. add `"lint": "eslint 'dist/index.js'"` to scripts to run lint on index.js
+6. `eslint --init`
+7. run `npm run lint` to run linting
 ### H. Jasmine
 1. `npm i jasmine ` to install jasmine
 2. `npm i jasmine-spec-reporter` to add a reporter for outputting Jasmine results to the terminal
 3. `npm i --save-dev @types/jasmine` to add type definitions for Jasmine 
-4. add the following script `"jasmine": "jasmine"`
-5. **BEST PRACTICE:**
+4. **BEST PRACTICE:**
    1. When creating files for tests, a best practice is to name the .ts file the same as the .js file to be tested with 
    Spec appended to the end. The more tests needed to be run, the more test files will need to be created. Be sure to 
    follow this best practice to keep track of the test file that contains the tests for each .js file.
+5. create the file structure noted below
+6. include `"exclude": ["node_modules", "./dist", "spec"]` after compilerOptions in tsconfig.json because we don't want to check these for TS
+7. add this to reporter.ts
+```
+import {DisplayProcessor, SpecReporter, StacktraceOption} from "jasmine-spec-reporter";
+import SuiteInfo = jasmine.SuiteInfo;
 
+class CustomProcessor extends DisplayProcessor {
+    public displayJasmineStarted(info: SuiteInfo, log: string): string {
+        return `${log}`;
+    }
+}
+
+jasmine.getEnv().clearReporters();
+jasmine.getEnv().addReporter(new SpecReporter({
+    spec: {
+        displayStacktrace: StacktraceOption.NONE
+    },
+    customProcessors: [CustomProcessor],
+}));
+```
+8. and this to jasmine.json
+```
+{
+    "spec_dir": "dist/tests",
+    "spec_files": [
+        "**/*[sS]pec.js"
+    ],
+    "helpers": [
+        "helpers/**/*.js"
+    ],
+    "stopSpecOnExpectationFailure": false,
+    "random": false
+}
+```
+9. add the following script to build and run at the same time `"test": "npm run build && npm run jasmine"`
+### I. sharp
+1. https://www.npmjs.com/package/sharp
+2. https://malcoded.com/posts/nodejs-image-resize-express-sharp/
+3. The typical use case for this high speed Node.js module is to convert large images in common formats to smaller, web-friendly JPEG, PNG, WebP and AVIF images of varying dimensions.
+4. `npm install sharp --save` 
 ## II. File Structure
 ```
 ├── node_modules
@@ -80,3 +123,8 @@ _____________________________
 ├── package.json
 └── tsconfig.json
 ```
+
+## III. Sharp
+
+### Sharp usage
+1. 
