@@ -1,0 +1,1 @@
+/* TESTS FOR INDEX.js*/

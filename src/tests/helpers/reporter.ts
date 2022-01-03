@@ -1,0 +1,1 @@
+/* primary configuration for your spec reporter */
