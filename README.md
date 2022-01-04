@@ -124,7 +124,23 @@ jasmine.getEnv().addReporter(new SpecReporter({
 └── tsconfig.json
 ```
 
-## III. Sharp
+## III. Testing
+### Steps
+1. Install
+   1. `npm i jasmine`
+   2. `npm i jasmine-spec-reporter` jasmine output to console in a readable way
+   3. `npm i --save-dev @types/jasmine` define type definitions
+2. Add testing script
+   1. `"jasmine": "jasmine"`
+3. Set up file structure
+   1. add spec folder at root level
+   2. add subfolder to spec called support
+   3. add jasmine.json file to support folder
+   4. add tests folder in src folder 
+   5. add indexSpec.ts file to test main index file
+   6. add helpers folder
+   7. add reporter.ts where Specs look for their configurations
+4. Configure Jasmine
+5. Create testing script
 
-### Sharp usage
-1. 
+## IV. Sharp

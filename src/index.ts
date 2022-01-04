@@ -1,41 +1,38 @@
 /* IMPORTS */
 import express from 'express';
-import resize from './utilities/resize';
+import Resize from "./utilities/resize";
 
 /* DEFINE KEY VARIABLES */
 // express server
 const app = express();
 const port = 3000;
-// sharp
 
 /* SHARP */
-// endpoint
-
+// endpoint: request '/' gets image
 app.get('/', (req, res) => {
     // Extract the query-parameter
     const widthString = req.query.width
     const heightString = req.query.height
-    const format = req.query.format
 
     // Parse to integer if possible
-    let width, height
+    // set default image values - assure never undefined.
+    let width: number = 300;
+    let height: number = 300;
+    // get new width from query
     if (widthString) {
-        // @ts-ignore
-        width = parseInt(widthString)
+        width = parseInt(widthString.toString())
     }
+    // get new height from query
     if (heightString) {
-        // @ts-ignore
-        height = parseInt(heightString)
+        height = parseInt(heightString.toString())
     }
-    // Set the content-type of the response
-    res.type(`image/${format || 'jpg'}`)
 
+    const newImg = new Resize('src/images/mario.jpg', width, height);
     // Get the resized image
-    // @ts-ignore
-    resize('src/images/mario.jpg', format, width, height).pipe(res)
+    newImg.resize('src/images/mario.jpg', width, height).pipe(res)
 })
 
-app.listen(8000, () => {
+app.listen(port, () => {
     console.log('Server started!')
 })
 
