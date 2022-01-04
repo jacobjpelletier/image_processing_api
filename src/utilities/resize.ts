@@ -3,7 +3,7 @@ import express from 'express';
 const fs = require('fs')
 const sharp = require('sharp')
 
-function resize(path: string, format: string, width: number, height: number) {
+export default function resize(path: string, format: string, width: number, height: number) {
     const readStream = fs.createReadStream(path)
     let transform = sharp()
 
@@ -12,12 +12,9 @@ function resize(path: string, format: string, width: number, height: number) {
     }
 
     if (width || height) {
-        transform = transform.resize(path, format, width, height)
+        transform = transform.resize(width, height)
     }
 
     return readStream.pipe(transform)
 }
 
-export {
-    resize
-}

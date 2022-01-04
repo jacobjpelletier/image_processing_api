@@ -1,6 +1,6 @@
 /* IMPORTS */
 import express from 'express';
-import {resize} from './utilities/resize';
+import resize from './utilities/resize';
 
 /* DEFINE KEY VARIABLES */
 // express server
@@ -10,43 +10,32 @@ const port = 3000;
 
 /* SHARP */
 // endpoint
+
 app.get('/', (req, res) => {
-    res.send('poo')
     // Extract the query-parameter
-    // @ts-ignore : ignored because req.query.width cannot be undefined when used due to if
-    const widthString = req.query.width.toString()
-    // @ts-ignore : ignored because req.query.width cannot be undefined when used due to if
-    const heightString = req.query.height.toString()
-    // @ts-ignore : ignored because req.query.format cannot be undefined when used due to if
-    const formatString = req.query.format.toString()
+    const widthString = req.query.width
+    const heightString = req.query.height
+    const format = req.query.format
 
     // Parse to integer if possible
-    let width, height, format
+    let width, height
     if (widthString) {
+        // @ts-ignore
         width = parseInt(widthString)
     }
     if (heightString) {
+        // @ts-ignore
         height = parseInt(heightString)
     }
-    if (formatString) {
-        format = formatString
-    }
     // Set the content-type of the response
-    res.type(`image/${format || 'png'}`)
+    res.type(`image/${format || 'jpg'}`)
 
     // Get the resized image
-    // @ts-ignore : ignored because req.query.width cannot be undefined when used due to if
-    resize('nodejs.jpg', format, width, height).pipe(res)
+    // @ts-ignore
+    resize('src/images/mario.jpg', format, width, height).pipe(res)
 })
 
-app.listen(port, () => {
-    console.log(`server started at port ${port}`);
+app.listen(8000, () => {
+    console.log('Server started!')
 })
-
-/* *TESTING */
-const testFunc = (num: number): number => {
-    return num * num;
-};
-
-export default testFunc;
 
