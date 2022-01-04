@@ -1,17 +1,24 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+/*
+ Resize class constructor takes arguments path as string, width as number height as number
+ Resize function takes an image and transforms the width, and height.
+ export class
+ */
+// will need to reed file system
 const fs = require('fs');
 const sharp = require('sharp');
-function resize(path, format, width, height) {
-    const readStream = fs.createReadStream(path);
-    let transform = sharp();
-    if (format) {
-        transform = transform.toFormat(format);
+class Resize {
+    constructor(path, width, height) {
+        this.path = path; // path of image
+        this.width = width; // width of image
+        this.height = height; // height of image
     }
-    if (width || height) {
+    resize(path, width, height) {
+        const readStream = fs.createReadStream(path);
+        let transform = sharp();
         transform = transform.resize(width, height);
+        return readStream.pipe(transform);
     }
-    return readStream.pipe(transform);
 }
-exports.default = resize;
+module.exports = Resize;
 //# sourceMappingURL=resize.js.map

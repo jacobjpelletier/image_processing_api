@@ -141,6 +141,28 @@ jasmine.getEnv().addReporter(new SpecReporter({
    6. add helpers folder
    7. add reporter.ts where Specs look for their configurations
 4. Configure Jasmine
+   1. use default settings for reporter.ts found at https://github.com/bcaudan/jasmine-spec-reporter/tree/master/examples/typescript
+   2. add the following to jasmine.json to configure jasmine
+   ```
+      {
+      "spec_dir": "dist/tests",
+      "spec_files": [
+      "**/*[sS]pec.js"
+      ],
+      "helpers": [
+      "helpers/**/*.js"
+      ],
+      "stopSpecOnExpectationFailure": false,
+      "random": false
+      }
+   ```
+   3. endpoint testing
+      1. install supertest
+         1. `npm i supertest`
+         2. `npm i --save-dev @types/supertest`
+      2. add to spec file
+         1. 
+      3. create test
 5. Create testing script
 
 ## IV. Sharp
