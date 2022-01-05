@@ -9,7 +9,7 @@ const port = 3000;
 
 /* SHARP */
 // endpoint: request '/' gets image
-app.get('/', (req, res) => {
+app.get('/', (req: express.Request, res: express.Response) => {
     // Extract the query-parameter
     const widthString = req.query.width
     const heightString = req.query.height
@@ -29,7 +29,14 @@ app.get('/', (req, res) => {
 
     const newImg = new Resize('src/images/mario.jpg', width, height);
     // Get the resized image
-    newImg.resize('src/images/mario.jpg', width, height).pipe(res)
+    newImg.resize('src/images/mario.jpg', width, height).then(r => {
+        if (r !== undefined) {
+            r.pipe(res);
+        } else {
+            res.send('Sorry, error occurred.');
+        }
+    })
+
 })
 
 app.listen(port, () => {

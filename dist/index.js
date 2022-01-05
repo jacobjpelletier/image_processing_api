@@ -30,7 +30,14 @@ app.get('/', (req, res) => {
     }
     const newImg = new resize_1.default('src/images/mario.jpg', width, height);
     // Get the resized image
-    newImg.resize('src/images/mario.jpg', width, height).pipe(res);
+    newImg.resize('src/images/mario.jpg', width, height).then(r => {
+        if (r !== undefined) {
+            r.pipe(res);
+        }
+        else {
+            res.send('Sorry, error occurred.');
+        }
+    });
 });
 app.listen(port, () => {
     console.log('Server started!');

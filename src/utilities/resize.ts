@@ -5,8 +5,8 @@
  */
 
 // will need to reed file system
-const fs = require('fs')
-const sharp = require('sharp')
+import fs from 'fs';
+import sharp from 'sharp';
 
 class Resize {
 
@@ -20,12 +20,15 @@ class Resize {
         this.height = height; // height of image
     }
 
-
-    public resize(path: string, width: number, height: number) {
-        const readStream = fs.createReadStream(path)
-        let transform = sharp()
-        transform = transform.resize(width, height)
-        return readStream.pipe(transform)
+    public async resize(path: string, width: number, height: number) {
+        const readStream = fs.createReadStream(path);
+        try {
+            // sharp returns response asynchronously
+            let transform = await sharp().resize(width, height);
+            return readStream.pipe(transform);
+        } catch(err) {
+            console.log(err);
+        }
     }
 }
 

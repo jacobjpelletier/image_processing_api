@@ -16,13 +16,5 @@ describe('test resize class', () => {
     it('initial height assignment works', () => {
         expect(resizeTest.height).toEqual(100);
     });
-    // note that calledFunc = stream rather than object, so need to check that via options rather than an object in the server
-    let calledFunc = resizeTest.resize('src/images/mario.jpg', 200, 200);
-    it('new width assignment via resize function', () => {
-        expect(calledFunc.options.width).toEqual(200);
-    });
-    it('new height assignment via resize function', () => {
-        expect(calledFunc.options.height).toEqual(200);
-    });
 });
 //# sourceMappingURL=resizeSpec.js.map

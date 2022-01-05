@@ -104,7 +104,8 @@ jasmine.getEnv().addReporter(new SpecReporter({
 1. https://www.npmjs.com/package/sharp
 2. https://malcoded.com/posts/nodejs-image-resize-express-sharp/
 3. The typical use case for this high speed Node.js module is to convert large images in common formats to smaller, web-friendly JPEG, PNG, WebP and AVIF images of varying dimensions.
-4. `npm install sharp --save` 
+4. `npm install --save-dev sharp` 
+5. `npm i --save-dev @types/sharp`
 ## II. File Structure
 ```
 ├── node_modules
@@ -138,8 +139,8 @@ jasmine.getEnv().addReporter(new SpecReporter({
 ## III. Testing
 ### Steps
 1. Install
-   1. `npm i jasmine`
-   2. `npm i jasmine-spec-reporter` jasmine output to console in a readable way
+   1. `npm i --save-dev jasmine`
+   2. `npm i --save-dev jasmine-spec-reporter` jasmine output to console in a readable way
    3. `npm i --save-dev @types/jasmine` define type definitions
 2. Add testing script
    1. `"jasmine": "jasmine"`
@@ -169,7 +170,7 @@ jasmine.getEnv().addReporter(new SpecReporter({
    ```
    3. endpoint testing
       1. install supertest
-         1. `npm i supertest`
+         1. `npm i --save-dev supertest`
          2. `npm i --save-dev @types/supertest`
       2. add to spec file
          1. 
