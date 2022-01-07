@@ -31,3 +31,17 @@
         res.send(`Sorry, error occurred: ${err}`);
       }
     });
+
+
+
+          const newImg = new Resize(`src/images/${filename}.jpg`, width, height);
+          // Get the resized image
+          newImg.resize(`src/images/${filename}.jpg`, width, height).then((r) => {
+            try {
+              if (r !== undefined) {
+                r.pipe(res);
+              }
+            } catch (err) {
+              res.send(`Sorry, error occurred: ${err}`);
+            }
+          });

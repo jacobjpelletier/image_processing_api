@@ -22,8 +22,9 @@ class Resize {
   public async resize(path: string, width: number, height: number) {
     const readStream = fs.createReadStream(path);
     try {
-      // sharp returns response asynchronously
+      // create new image
       let transform = await sharp().resize(width, height);
+      // sharp returns response asynchronously
       return readStream.pipe(transform);
     } catch (err) {
       console.log(err);
