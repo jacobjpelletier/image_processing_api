@@ -9,11 +9,12 @@ import ErrnoException = NodeJS.ErrnoException;
 // express server
 const app = express();
 const port = 3000;
-
+// filter responses
 const invalidDimensions = `<h1>Please enter numbers for dimensions.</h1> <br> Note that API will take any number argument 
 passed such that <b>"abc" is invalid</b> but <b>"10abc0" is valid</b> and the value "10" will be
 accepted. <br> <b>Use the following format:</b> 
 http://localhost:3000/resize/?filename=___&width=___&height=___`
+const missingArguments = 'The chosen file is valid, but please provide width and height.'
 
 /* SHARP */
 // endpoint: request '/' gets api instructions
@@ -41,7 +42,7 @@ app.get("/resize", (req: express.Request, res: express.Response, next: express.N
       /* 1. check if dimensions were passed */
       if (widthString === undefined || heightString === undefined) {
         // inform the user that width and height arguments are missing
-        res.send('The chosen file is valid, but please provide width and height.')
+        res.send(missingArguments)
       }
       /* 2. check if dimensions given can be used for width and height */
       if (width.toString() === 'NaN' || height.toString() === 'NaN') {
@@ -49,7 +50,7 @@ app.get("/resize", (req: express.Request, res: express.Response, next: express.N
       }
 
       /** API LOGIC **/
-      /* if the file exists in the file system, serve that file */
+      /* if the requested file already exists in the cache, serve the file */
       if (fs.existsSync(imageName)) {
         // asynchronously read file from cache
         await (async () => {
@@ -60,14 +61,14 @@ app.get("/resize", (req: express.Request, res: express.Response, next: express.N
           });
         })();
       }
-      /* if the requested file does not exist, create new file and serve, pipe requested image to user synchronously*/
+      /* if the requested file does not exist, create new file and serve asynchronously, pipe requested image to user synchronously*/
       else {
         // Create new Resize object with which to pipe back to user upon request
         const newImg = new Resize(`src/images/${filename}.jpg`, width, height);
         newImg.resize(`src/images/${filename}.jpg`, width, height).then(async (r:Sharp|undefined) => {
           // as long as sharp object is defined
           if (r !== undefined) {
-            // save new file asynchronously
+            // 1. save new file asynchronously
             await (async () => {
               sharp(`src/images/${filename}.jpg`)
                     //
@@ -79,7 +80,7 @@ app.get("/resize", (req: express.Request, res: express.Response, next: express.N
                       }
                     })
               })()
-              // while waiting on write operation, serve user their image via pipe
+              // 2. and pipe the requested image synchronously
               r.pipe(res);
           }
         });
