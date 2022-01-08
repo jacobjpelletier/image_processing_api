@@ -179,13 +179,19 @@ jasmine.getEnv().addReporter(new SpecReporter({
 6. Create tests
 
 ## IV. Run The Project
-1. compile and test typescript with `npm run test`
-2. run server with `npm run start`
-3. go to browser and get endpoint with `http://localhost:3000/`
-4. How to write browser query commands
+1. install required modules with `npm install`
+2. compile and test typescript with `npm run test`
+3. run server with `npm run start`
+4. go to browser and get endpoint with `http://localhost:3000/`
+5. How to write browser query commands
    1. to resize the image, two query arguments are needed: width and height. example below
-   2. `http://localhost:3000/?width=100&height=100`
+   2. `http://localhost:3000/?filename=imagewidth=100&height=100`
       1. '?' indicates query
-      2. specify arguments with keywords 'width' and 'height'
-      3. string two arguments together with '&'
-      4. the result is a new jpg image (mario) resized to the specified dimensions
+      2. specify an image file found in src/images to resize with the query above
+      3. specify arguments with keywords 'width' and 'height'
+      4. string arguments together with '&'
+      5. the result is a new jpg image resized to the specified dimensions
+         1. piped to user
+         2. written to cache (src/resizedImages)
+   3. filename query argument must be found in src/images
+       1. add new images to resize by adding them to src/images

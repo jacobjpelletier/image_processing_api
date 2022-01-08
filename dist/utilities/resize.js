@@ -29,8 +29,9 @@ class Resize {
         return __awaiter(this, void 0, void 0, function* () {
             const readStream = fs_1.default.createReadStream(path);
             try {
-                // sharp returns response asynchronously
+                // create new image
                 let transform = yield (0, sharp_1.default)().resize(width, height);
+                // sharp returns response asynchronously
                 return readStream.pipe(transform);
             }
             catch (err) {

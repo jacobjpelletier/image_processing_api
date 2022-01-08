@@ -15,23 +15,54 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* TESTS FOR INDEX.js*/
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../index"));
+const fs_1 = __importDefault(require("fs"));
 const request = (0, supertest_1.default)(index_1.default);
-describe('Test endpoint responses', () => {
-    it('gets the api endpoint', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/');
+describe("Test endpoint responses", () => {
+    it("get welcome endpoint", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get("/");
         expect(response.status).toBe(200);
     }));
-    it('query to resize image - width and height', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/?width=100&height=100');
+    it("get the api endpoint", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get("/resize");
         expect(response.status).toBe(200);
     }));
-    it('query to resize image - width only', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/?width=100');
+    // test piping
+    it("invalid valid file, no dimensions", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get("/resize/?filename=m");
         expect(response.status).toBe(200);
     }));
-    it('query to resize image - height only', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/?height=100');
+    it("invalid valid file, width and height", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get("/resize/?filename=m&width=100&height=100");
         expect(response.status).toBe(200);
+    }));
+    it("valid file, no dimensions", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get("/resize/?filename=mario");
+        expect(response.status).toBe(200);
+    }));
+    it("valid file, invalid dimensions", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get("/resize/?filename=mario&width=abc&height=def");
+        expect(response.status).toBe(200);
+    }));
+    it("valid file, width and height", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get("/resize/?filename=mario&width=100&height=100");
+        expect(response.status).toBe(200);
+    }));
+});
+describe("Test file system operations", () => {
+    it("read from file system", () => {
+        expect(fs_1.default.existsSync("src/images/mario.jpg")).toBeTrue();
+    });
+    it("write if file does not exist", () => __awaiter(void 0, void 0, void 0, function* () {
+        /* assumes src/resizedImages/mario-100-100.jpg does not exist */
+        const response = yield request.get("/resize/?filename=mario&width=123&height=123");
+        expect(response.status).toBe(200);
+        expect(fs_1.default.existsSync("src/resizedImages/mario-123-123.jpg"));
+    }));
+    it("read if file does exist", () => __awaiter(void 0, void 0, void 0, function* () {
+        /* assumes src/resizedImages/mario-100-100.jpg does exist */
+        const response = yield request.get("/resize/?filename=mario&width=123&height=123");
+        expect(response.status).toBe(200);
+        expect(fs_1.default.existsSync("src/resizedImages/mario-100-100.jpg"));
     }));
 });
 //# sourceMappingURL=indexSpec.js.map
