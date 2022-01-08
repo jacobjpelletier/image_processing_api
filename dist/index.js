@@ -28,8 +28,8 @@ http://localhost:3000/resize/?filename=___&width=___&height=___  where default o
 To include your own jpg files to edit, place them in src/images in the form "image.jpg". Once the query is created,
 the new image will be found in src/resizedImages`;
 const invalidDimensions = `<h1>Please enter numbers for dimensions.</h1> <br> Note that API will take any number argument 
-passed such that <b>"abc" is invalid</b> but <b>"10abc0" is valid</b> and the value "10" will be
-accepted. <br> <b>Use the following format:</b> 
+passed such that <b>"abc" is invalid</b> but <b>"10abc0" is valid</b> and the value "10" will be accepted. Numbers >= 0 only.
+<br> <b>Use the following format:</b> 
 http://localhost:3000/resize/?filename=___&width=___&height=___`;
 const missingArguments = "The chosen file is valid, but please provide width and height.";
 /* SHARP */
@@ -72,8 +72,12 @@ app.get("/resize", (req, res) => {
                         // inform the user that width and height arguments are missing
                         return res.send(missingArguments);
                     }
-                    /* 2. check if dimensions given can be used for width and height */
+                    /* 2. check if dimensions given are numbers */
                     if (width.toString() === "NaN" || height.toString() === "NaN") {
+                        return res.send(invalidDimensions);
+                    }
+                    /* 3. check if dimensions given are valid numbers */
+                    if (width <= 0 || height <= 0) {
                         return res.send(invalidDimensions);
                     }
                     /** API LOGIC **/

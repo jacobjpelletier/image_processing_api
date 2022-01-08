@@ -29,9 +29,15 @@ describe("Test endpoint responses", () => {
     const response = await request.get("/resize/?filename=mario");
     expect(response.status).toBe(200);
   });
-  it("valid file, invalid dimensions", async () => {
+  it("valid file, invalid dimensions (NaN)", async () => {
     const response = await request.get(
       "/resize/?filename=mario&width=abc&height=def"
+    );
+    expect(response.status).toBe(200);
+  });
+  it("valid file, invalid dimensions (<= 0)", async () => {
+    const response = await request.get(
+      "/resize/?filename=mario&width=0&height=-1"
     );
     expect(response.status).toBe(200);
   });
